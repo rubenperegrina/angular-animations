@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { animations } from './animations/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [animations]
 })
-export class AppComponent {
-  title = 'angular-animations';
+export class AppComponent implements OnInit {
+  images: any;
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    this.http.get('https://picsum.photos/v2/list?page=12&limit=50')
+      .subscribe((res: any) => {
+        this.images = res;
+      })
+  }
 }
